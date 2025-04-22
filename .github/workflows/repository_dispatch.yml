@@ -3,8 +3,12 @@ name: Do Something That Needs Scheduled
 on:
   repository_dispatch:
     types: [ do-something ]
-  schedule:
-    - cron:  '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      text:
+        description: 'Text to echo'
+        required: false
+        default: 'Hello, world!'
 
 jobs:
   build:
@@ -17,3 +21,6 @@ jobs:
 
       - name: Do Something Based On Triggered Event Data
         run: 'echo "Triggered event text: ${{ github.event.client_payload.text }}"'
+
+      - name: Do Something Based On Manual Input
+        run: 'echo "Manual input text: ${{ github.event.inputs.text }}"'
